@@ -85,7 +85,7 @@ export const OptimizationAdvice = () => {
               These appliances consume the most energy. Consider optimizing or replacing them:
             </p>
             <div className="space-y-2">
-              {highConsumptionAppliances.map((appliance, index) => (
+              {highConsumptionAppliances.map((appliance) => (
                 <div key={appliance.id} className="flex justify-between items-center bg-white p-2 rounded">
                   <span className="font-medium">{appliance.name}</span>
                   <Badge variant="destructive">

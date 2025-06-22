@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { useAppStore } from "@/store/useAppStore";
-import { Calculator, Battery, Sun, Zap, History, Plus, Menu, Trash2, FileText } from "lucide-react";
+import { Calculator, Battery, Sun, Zap, History, Menu, Trash2, FileText } from "lucide-react";
 import { format } from "date-fns";
 
 export const Dashboard = () => {
@@ -222,7 +222,7 @@ const ProjectsList = () => {
   return (
     <div className="space-y-4 mt-4">
       {projects.map((project) => {
-        const status = getProjectStatus(project);
+        // const status = getProjectStatus(project);
         const isActive = currentProject?.id === project.id;
         
         return (
