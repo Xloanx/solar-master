@@ -1,0 +1,186 @@
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { EnergyAudit } from "@/components/energyAudit";
+import { BatteryDesign } from "@/components/batteryDesign";
+import { PVDesign } from "@/components/pvDesign";
+import { InverterCalculator } from "@/components/inverterCalculator";
+import { ChargeControllerRecommendation } from "@/components/chargeControllerRecommendation";
+import { OptimizationAdvice } from "@/components/optimizationAdvice";
+import { ChatInterface } from "@/components/chatInterface";
+import { Dashboard } from "@/components/dashboard";
+import { ProjectManager } from "@/components/projectManager";
+import { useAppStore } from "@/store/useAppStore";
+import { Calculator, Battery, Sun, Zap, MessageCircle, History, LayoutDashboard } from "lucide-react";
+
+const AuthUserPage = () => {
+  const { activeTab, setActiveTab } = useAppStore();
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50">
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-gray-900 mb-2 flex items-center justify-center gap-2">
+            <Sun className="h-8 w-8 text-yellow-500" />
+            Solar Insight Architect
+          </h1>
+          <p className="text-xl text-gray-600">Complete Solar Installation Design & Analysis Platform</p>
+        </div>
+
+        <div className="flex justify-between items-center mb-6">
+          <div></div>
+          <ProjectManager />
+        </div>
+
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <TabsList className="grid w-full grid-cols-7 gap-2">
+            <TabsTrigger value="dashboard" className="flex items-center gap-2">
+              <LayoutDashboard className="h-4 w-4" />
+              Dashboard
+            </TabsTrigger>
+            <TabsTrigger value="energy-audit" className="flex items-center gap-2">
+              <Calculator className="h-4 w-4" />
+              Energy Audit
+            </TabsTrigger>
+            <TabsTrigger value="battery-design" className="flex items-center gap-2">
+              <Battery className="h-4 w-4" />
+              Battery Design
+            </TabsTrigger>
+            <TabsTrigger value="pv-design" className="flex items-center gap-2">
+              <Sun className="h-4 w-4" />
+              PV Design
+            </TabsTrigger>
+            <TabsTrigger value="inverter" className="flex items-center gap-2">
+              <Zap className="h-4 w-4" />
+              Inverter
+            </TabsTrigger>
+            <TabsTrigger value="chat" className="flex items-center gap-2">
+              <MessageCircle className="h-4 w-4" />
+              AI Chat
+            </TabsTrigger>
+            <TabsTrigger value="history" className="flex items-center gap-2">
+              <History className="h-4 w-4" />
+              History
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="dashboard">
+            <Dashboard />
+          </TabsContent>
+
+          <TabsContent value="energy-audit">
+            <Card>
+              <CardHeader>
+                <CardTitle>Energy Audit</CardTitle>
+                <CardDescription>
+                  Calculate your total energy consumption by adding appliances and their specifications
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <EnergyAudit />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="battery-design">
+            <Card>
+              <CardHeader>
+                <CardTitle>Battery Design</CardTitle>
+                <CardDescription>
+                  Calculate the number of batteries required for your solar installation
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <BatteryDesign />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="pv-design">
+            <Card>
+              <CardHeader>
+                <CardTitle>Solar Panel Design</CardTitle>
+                <CardDescription>
+                  Calculate the number of solar panels needed for your installation
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <PVDesign />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="inverter">
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Inverter Calculator</CardTitle>
+                  <CardDescription>
+                    Determine the appropriate inverter rating for your system
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <InverterCalculator />
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardHeader>
+                  <CardTitle>Charge Controller Recommendation</CardTitle>
+                  <CardDescription>
+                    Get recommendations for the appropriate solar charge controller
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ChargeControllerRecommendation />
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardHeader>
+                  <CardTitle>Optimization Advice</CardTitle>
+                  <CardDescription>
+                    Get suggestions to optimize your installation and reduce costs
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <OptimizationAdvice />
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="chat">
+            <Card>
+              <CardHeader>
+                <CardTitle>AI Troubleshooting Assistant</CardTitle>
+                <CardDescription>
+                  Get expert advice and troubleshooting guidance for your solar installation
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ChatInterface />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="history">
+            <Card>
+              <CardHeader>
+                <CardTitle>Installation History</CardTitle>
+                <CardDescription>
+                  Review your past solar installation calculations and designs
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Dashboard />
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </div>
+  );
+};
+
+export default AuthUserPage;
