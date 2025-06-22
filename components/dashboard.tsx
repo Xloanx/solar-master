@@ -4,8 +4,35 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { useAppStore } from "@/store/useAppStore";
-import { Calculator, Battery, Sun, Zap, History, Menu, Trash2, FileText } from "lucide-react";
+import { Calculator, Battery, Sun, Zap, History, Plus, Menu, Trash2, FileText } from "lucide-react";
 import { format } from "date-fns";
+
+interface ProjectType {
+  id: string;
+  name: string;
+  createdAt: string;
+  notes?: string;
+  energyData: {
+    appliances: Array<{
+      id: string;
+      name: string;
+      quantity: number;
+      powerRating: number;
+      isInductive: boolean;
+      runtime: number;
+      totalPower: number;
+      surgeFactor: number;
+      dailyConsumption: number;
+    }>;
+    totalRawEnergy: number;
+    totalSurgeFactor: number;
+  };
+}
+
+interface ProjectStatus {
+  status: string;
+  color: string;
+}
 
 export const Dashboard = () => {
   const { 
@@ -18,7 +45,7 @@ export const Dashboard = () => {
     setSidebarOpen 
   } = useAppStore();
 
-  const getProjectStatus = (project: any) => {
+  const getProjectStatus = (project: ProjectType): ProjectStatus => {
     if (project.energyData.appliances.length === 0) return { status: "Not Started", color: "bg-gray-500" };
     if (project.energyData.totalRawEnergy > 0) return { status: "In Progress", color: "bg-yellow-500" };
     return { status: "Completed", color: "bg-green-500" };
@@ -219,10 +246,16 @@ export const Dashboard = () => {
 const ProjectsList = () => {
   const { projects, loadProject, deleteProject, currentProject } = useAppStore();
 
+  const getProjectStatus = (project: ProjectType): ProjectStatus => {
+    if (project.energyData.appliances.length === 0) return { status: "Not Started", color: "bg-gray-500" };
+    if (project.energyData.totalRawEnergy > 0) return { status: "In Progress", color: "bg-yellow-500" };
+    return { status: "Completed", color: "bg-green-500" };
+  };
+
   return (
     <div className="space-y-4 mt-4">
       {projects.map((project) => {
-        // const status = getProjectStatus(project);
+        const status = getProjectStatus(project);
         const isActive = currentProject?.id === project.id;
         
         return (
@@ -262,10 +295,4 @@ const ProjectsList = () => {
       })}
     </div>
   );
-};
-
-const getProjectStatus = (project: any) => {
-  if (project.energyData.appliances.length === 0) return { status: "Not Started", color: "bg-gray-500" };
-  if (project.energyData.totalRawEnergy > 0) return { status: "In Progress", color: "bg-yellow-500" };
-  return { status: "Completed", color: "bg-green-500" };
 };

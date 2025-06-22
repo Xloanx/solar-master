@@ -1,4 +1,4 @@
-'use client'
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,8 +7,7 @@ import { Switch } from "@/components/ui/switch";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus, Trash2, Download, FileText } from "lucide-react";
-// import { useToast } from "@/hooks/use-toast";
-import { toast } from "sonner";
+import { toast } from "sonner"
 import { useAppStore } from "@/store/useAppStore";
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -17,15 +16,34 @@ import * as XLSX from 'xlsx';
 // Extend jsPDF type to include autoTable
 declare module 'jspdf' {
   interface jsPDF {
-    autoTable: (options: any) => void;
+    autoTable: (options: AutoTableOptions) => void;
     lastAutoTable: {
       finalY: number;
     };
   }
 }
 
+interface AutoTableOptions {
+  startY?: number;
+  head?: string[][];
+  body?: string[][];
+  theme?: string;
+}
+
+interface ApplianceType {
+  id: string;
+  name: string;
+  quantity: number;
+  powerRating: number;
+  isInductive: boolean;
+  runtime: number;
+  totalPower: number;
+  surgeFactor: number;
+  dailyConsumption: number;
+}
+
 export const EnergyAudit = () => {
-//   const { toast } = useToast();
+  // const { toast } = useToast();
   const { energyData, setEnergyData } = useAppStore();
   const [newAppliance, setNewAppliance] = useState({
     name: "",
@@ -35,7 +53,7 @@ export const EnergyAudit = () => {
     runtime: 8,
   });
 
-  const calculateTotals = (appliances: any[]) => {
+  const calculateTotals = (appliances: ApplianceType[]) => {
     const totalRawEnergy = appliances.reduce((sum, app) => sum + app.dailyConsumption, 0);
     const totalSurgeFactor = appliances.reduce((sum, app) => sum + app.surgeFactor, 0);
     return { totalRawEnergy, totalSurgeFactor };
@@ -43,14 +61,13 @@ export const EnergyAudit = () => {
 
   const addAppliance = () => {
     if (!newAppliance.name || newAppliance.powerRating <= 0) {
-      toast("Invalid Input", {
-        description: "Please provide a valid appliance name and power rating",
-        // variant: "destructive",
+      toast("Invalid Input",{
+        description: "Please provide a valid appliance name and power rating"
       });
       return;
     }
 
-    const appliance = {
+    const appliance: ApplianceType = {
       id: Date.now().toString(),
       ...newAppliance,
       totalPower: newAppliance.quantity * newAppliance.powerRating,
@@ -164,6 +181,7 @@ export const EnergyAudit = () => {
     });
   };
 
+  // ... keep existing code (return statement with JSX)
   return (
     <div className="space-y-6">
       {/* Add Appliance Form */}
