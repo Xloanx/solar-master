@@ -1,6 +1,5 @@
 'use client'
 
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { EnergyAudit } from "@/components/energyAudit";
@@ -10,15 +9,11 @@ import { InverterCalculator } from "@/components/inverterCalculator";
 import { ChargeControllerRecommendation } from "@/components/chargeControllerRecommendation";
 import { OptimizationAdvice } from "@/components/optimizationAdvice";
 import { ChatInterface } from "@/components/chatInterface";
-import { AuthenticationPrompt } from "@/components/authenticationPrompt";
 import { useAppStore } from "@/store/useAppStore";
-import { Calculator, Battery, Sun, Zap, MessageCircle, History } from "lucide-react";
+import { Calculator, Battery, Sun, Zap, MessageCircle } from "lucide-react"; // Removed History
 
 const Index = () => {
   const { activeTab, setActiveTab } = useAppStore();
-
-  // Mock authentication state - replace with actual auth later
-  const isAuthenticated = false; // This would come from your auth provider
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50">
@@ -26,15 +21,15 @@ const Index = () => {
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-2 flex items-center justify-center gap-2">
             <Sun className="h-8 w-8 text-yellow-500" />
-            Solar Insight Architect
+            Solar Master
           </h1>
-          <p className="text-xl text-gray-600">Complete Solar Installation Design & Analysis Platform</p>
+          <p className="text-xl text-gray-600">
+            Design, Analyze, and Optimize Your Entire Solar Installation in Minutes.
+          </p>
         </div>
 
-        {!isAuthenticated && <AuthenticationPrompt />}
-
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 lg:grid-cols-6 gap-2">
+          <TabsList className="grid w-full grid-cols-2 lg:grid-cols-5 gap-2">
             <TabsTrigger value="energy-audit" className="flex items-center gap-2">
               <Calculator className="h-4 w-4" />
               Energy Audit
@@ -54,10 +49,6 @@ const Index = () => {
             <TabsTrigger value="chat" className="flex items-center gap-2">
               <MessageCircle className="h-4 w-4" />
               AI Chat
-            </TabsTrigger>
-            <TabsTrigger value="history" className="flex items-center gap-2">
-              <History className="h-4 w-4" />
-              History
             </TabsTrigger>
           </TabsList>
 
@@ -116,7 +107,7 @@ const Index = () => {
                   <InverterCalculator />
                 </CardContent>
               </Card>
-              
+
               <Card>
                 <CardHeader>
                   <CardTitle>Charge Controller Recommendation</CardTitle>
@@ -128,7 +119,7 @@ const Index = () => {
                   <ChargeControllerRecommendation />
                 </CardContent>
               </Card>
-              
+
               <Card>
                 <CardHeader>
                   <CardTitle>Optimization Advice</CardTitle>
@@ -153,24 +144,6 @@ const Index = () => {
               </CardHeader>
               <CardContent>
                 <ChatInterface />
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="history">
-            <Card>
-              <CardHeader>
-                <CardTitle>Installation History</CardTitle>
-                <CardDescription>
-                  Review your past solar installation calculations and designs
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center py-8">
-                  <History className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-500">Authentication required to access history</p>
-                  <p className="text-sm text-gray-400 mt-2">Sign up to save and review your calculations</p>
-                </div>
               </CardContent>
             </Card>
           </TabsContent>
