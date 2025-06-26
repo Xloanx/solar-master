@@ -1,5 +1,6 @@
 'use client'
 
+import Image from "next/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { EnergyAudit } from "@/components/energyAudit";
@@ -19,14 +20,22 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50">
       <div className="container mx-auto px-4 py-8">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2 flex items-center justify-center gap-2">
-            <Sun className="h-8 w-8 text-yellow-500" />
-            Solar Master
-          </h1>
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <Image src="/logo.png" 
+                    height={42}
+                    width={42}
+                    alt="Solar Master Logo" 
+                    className="h-12 w-12 rounded-full shadow-md" />
+            <h1 className="text-4xl font-bold text-gray-900 flex items-center gap-2">
+              <Sun className="h-8 w-8 text-yellow-500" />
+              Solar Master
+            </h1>
+          </div>
           <p className="text-xl text-gray-600">
             Design, Analyze, and Optimize Your Entire Solar Installation in Minutes.
           </p>
         </div>
+
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList className="grid w-full grid-cols-2 lg:grid-cols-5 gap-2">
