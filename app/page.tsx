@@ -32,32 +32,37 @@ const Index = () => {
             </h1>
           </div>
           <p className="text-xl text-gray-600">
-            Design, Analyze, and Optimize Your Entire Solar Installation in Minutes.
+            Design, Analyze, and Optimize Your Entire Solar Installation in Minutes!!
           </p>
         </div>
 
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 lg:grid-cols-5 gap-2">
-            <TabsTrigger value="energy-audit" className="flex items-center gap-2">
+          {/* <TabsList className="grid w-full grid-cols-2 lg:grid-cols-5 gap-2"> */}
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+            <TabsTrigger value="energy-audit" className="flex items-center justify-center gap-2 p-2 sm:p-3 text-xs sm:text-sm">
               <Calculator className="h-4 w-4" />
-              Energy Audit
+              <span className="hidden sm:inline">Energy Audit</span> 
             </TabsTrigger>
-            <TabsTrigger value="battery-design" className="flex items-center gap-2">
+
+            <TabsTrigger value="battery-design" className="flex items-center justify-center gap-2 p-2 sm:p-3 text-xs sm:text-sm">
               <Battery className="h-4 w-4" />
-              Battery Design
+              <span className="hidden sm:inline">Battery Design</span>
             </TabsTrigger>
-            <TabsTrigger value="pv-design" className="flex items-center gap-2">
+
+            <TabsTrigger value="pv-design" className="flex items-center justify-center gap-2 p-2 sm:p-3 text-xs sm:text-sm">
               <Sun className="h-4 w-4" />
-              PV Design
+              <span className="hidden sm:inline">PV Design</span> 
             </TabsTrigger>
-            <TabsTrigger value="inverter" className="flex items-center gap-2">
+
+            <TabsTrigger value="inverter" className="flex items-center justify-center gap-2 p-2 sm:p-3 text-xs sm:text-sm">
               <Zap className="h-4 w-4" />
-              Inverter
+              <span className="hidden sm:inline">Inverter</span> 
             </TabsTrigger>
-            <TabsTrigger value="chat" className="flex items-center gap-2">
+
+            <TabsTrigger value="chat" className="flex items-center justify-center gap-2 p-2 sm:p-3 text-xs sm:text-sm">
               <MessageCircle className="h-4 w-4" />
-              AI Chat
+              <span className="hidden sm:inline">AI Chat</span> 
             </TabsTrigger>
           </TabsList>
 
