@@ -34,10 +34,10 @@ interface AutoTableOptions {
 interface ApplianceType {
   id: string;
   name: string;
-  quantity: number;
-  powerRating: number;
+  quantity: number | string;
+  powerRating: number | string;
   isInductive: boolean;
-  runtime: number;
+  runtime: number | string;
   totalPower: number;
   surgeFactor: number;
   dailyConsumption: number;
@@ -47,11 +47,11 @@ export const EnergyAudit = () => {
   // const { toast } = useToast();
   const { energyData, setEnergyData } = useAppStore();
   const [newAppliance, setNewAppliance] = useState({
-    name: "",
-    quantity: 1,
-    powerRating: 0,
-    isInductive: false,
-    runtime: 8,
+      name: "",
+      quantity: 1,
+      powerRating: 0,
+      isInductive: false,
+      runtime: 8,
   });
 
   const calculateTotals = (appliances: ApplianceType[]) => {
@@ -61,7 +61,7 @@ export const EnergyAudit = () => {
   };
 
   const addAppliance = () => {
-    if (!newAppliance.name || newAppliance.powerRating <= 0) {
+    if (!newAppliance.name || !newAppliance.quantity || !newAppliance.powerRating || !newAppliance.runtime) {
       toast("Invalid Input",{
         description: "Please provide a valid appliance name and power rating"
       });
@@ -187,73 +187,96 @@ export const EnergyAudit = () => {
     <div className="space-y-6">
       {/* Add Appliance Form */}
       <Card>
-        <CardHeader>
-          <CardTitle>Add New Appliance</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Appliance Name</Label>
-              <Input
-                id="name"
-                placeholder="e.g., LED Light"
-                value={newAppliance.name}
-                onChange={(e) => setNewAppliance({ ...newAppliance, name: e.target.value })}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="quantity">Quantity</Label>
-              <Input
-                id="quantity"
-                type="number"
-                min="1"
-                value={newAppliance.quantity}
-                onChange={(e) => setNewAppliance({ ...newAppliance, quantity: parseInt(e.target.value) || 1 })}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="power">Power (Watts)</Label>
-              <Input
-                id="power"
-                type="number"
-                min="0"
-                value={newAppliance.powerRating}
-                onChange={(e) => setNewAppliance({ ...newAppliance, powerRating: parseInt(e.target.value) || 0 })}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="runtime">Daily Runtime (hrs)</Label>
-              <Input
-                id="runtime"
-                type="number"
-                min="0"
-                max="24"
-                value={newAppliance.runtime}
-                onChange={(e) => setNewAppliance({ ...newAppliance, runtime: parseInt(e.target.value) || 8 })}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="inductive">Inductive Load</Label>
-              <div className="flex items-center space-x-2 pt-2">
-                <Switch
-                  id="inductive"
-                  checked={newAppliance.isInductive}
-                  onCheckedChange={(checked) => setNewAppliance({ ...newAppliance, isInductive: checked })}
-                />
-                <Label htmlFor="inductive" className="text-sm">
-                  {newAppliance.isInductive ? "Yes" : "No"}
-                </Label>
-              </div>
-            </div>
-            <div className="flex items-end">
-              <Button onClick={addAppliance} className="w-full">
-                <Plus className="h-4 w-4 mr-2" />
-                Add
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+  <CardHeader>
+    <CardTitle>Add New Appliance</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div className="space-y-2">
+        <Label htmlFor="name">Appliance Name</Label>
+        <Input
+          id="name"
+          placeholder="e.g., LED Light"
+          value={newAppliance.name}
+          onChange={(e) => setNewAppliance({ ...newAppliance, name: e.target.value })}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="quantity">Quantity</Label>
+        <Input
+          id="quantity"
+          type="number"
+          min="1"
+          value={newAppliance.quantity ?? ""}
+          onChange={(e) =>
+            setNewAppliance({
+              ...newAppliance,
+              quantity: e.target.value === "" ? "" : parseInt(e.target.value),
+            })
+          }
+        /> 
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="power">Power (Watts)</Label>
+        <Input
+          id="power"
+          type="number"
+          min="0"
+          value={newAppliance.powerRating ?? ""}
+          onChange={(e) =>
+            setNewAppliance({
+              ...newAppliance,
+              powerRating: e.target.value === "" ? "" : parseInt(e.target.value),
+            })
+          }
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="runtime">Daily Runtime (hrs)</Label>
+        <Input
+          id="runtime"
+          type="number"
+          min="0"
+          max="24"
+          value={newAppliance.runtime ?? ""}
+          onChange={(e) =>
+            setNewAppliance({
+              ...newAppliance,
+              runtime: e.target.value === "" ? "" : parseFloat(e.target.value),
+            })
+          }
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="inductive">Inductive Load</Label>
+        <div className="flex items-center space-x-2 pt-2">
+          <Switch
+            id="inductive"
+            checked={newAppliance.isInductive}
+            onCheckedChange={(checked) =>
+              setNewAppliance({ ...newAppliance, isInductive: checked })
+            }
+          />
+          <Label htmlFor="inductive" className="text-sm">
+            {newAppliance.isInductive ? "Yes" : "No"}
+          </Label>
+        </div>
+      </div>
+
+      <div className="flex items-end">
+        <Button onClick={addAppliance} className="w-full">
+          <Plus className="h-4 w-4 mr-2" />
+          Add
+        </Button>
+      </div>
+    </div>
+  </CardContent>
+</Card>
+
 
       {/* Appliances Table */}
       {energyData.appliances.length > 0 && (
