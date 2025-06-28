@@ -95,7 +95,7 @@ const handleSendMessage = async () => {
     }
 
     const data = await res.json();
-    console.log(data.response);
+    // console.log(data.response);
 
     if (data.token) {
       localStorage.setItem("jwt", data.token);
@@ -105,7 +105,7 @@ const handleSendMessage = async () => {
     const botResponse: Message = {
       id: (Date.now() + 1).toString(),
       type: "bot",
-      content: data.response.tasks_output[0] || "This is default message", // or any relevant response from API
+      content: data.response || "This is default message", // or any relevant response from API
       timestamp: new Date(),
     };
 

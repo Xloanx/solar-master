@@ -78,7 +78,7 @@ const Index = () => {
               className="flex items-center justify-center gap-2 p-2 sm:p-3 text-xs sm:text-sm flex-shrink-0"  // ✅ Edited Line
             >
               <Sparkles className="h-4 w-4" />
-              <span className="hidden sm:inline">Recommendation</span>
+              <span className="hidden sm:inline">Recommend</span>
             </TabsTrigger>
 
             <TabsTrigger
