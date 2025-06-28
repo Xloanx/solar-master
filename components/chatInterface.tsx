@@ -27,72 +27,104 @@ export const ChatInterface = () => {
   const [isLoading, setIsLoading] = useState(false);
 
 
-  const predefinedResponses = {
-    "low power output": "Low power output can be caused by several factors:\n\n1. **Shading** - Check for obstructions on panels\n2. **Dirty panels** - Clean panels with water and soft cloth\n3. **Loose connections** - Inspect and tighten all connections\n4. **Inverter issues** - Check inverter display for error codes\n5. **Battery degradation** - Test battery voltage under load\n\nWould you like specific guidance on any of these areas?",
+  // const predefinedResponses = {
+  //   "low power output": "Low power output can be caused by several factors:\n\n1. **Shading** - Check for obstructions on panels\n2. **Dirty panels** - Clean panels with water and soft cloth\n3. **Loose connections** - Inspect and tighten all connections\n4. **Inverter issues** - Check inverter display for error codes\n5. **Battery degradation** - Test battery voltage under load\n\nWould you like specific guidance on any of these areas?",
     
-    "battery not charging": "Battery charging issues troubleshooting:\n\n1. **Check charge controller** - Verify LED indicators\n2. **Verify connections** - Ensure tight, clean connections\n3. **Test battery voltage** - Should be within specifications\n4. **Check solar panel output** - Verify panels are producing power\n5. **Inspect fuses** - Replace any blown fuses\n\nWhat's the current battery voltage reading?",
+  //   "battery not charging": "Battery charging issues troubleshooting:\n\n1. **Check charge controller** - Verify LED indicators\n2. **Verify connections** - Ensure tight, clean connections\n3. **Test battery voltage** - Should be within specifications\n4. **Check solar panel output** - Verify panels are producing power\n5. **Inspect fuses** - Replace any blown fuses\n\nWhat's the current battery voltage reading?",
     
-    "inverter fault": "Inverter fault diagnosis:\n\n1. **Check error codes** - Note any displayed error messages\n2. **Verify input voltage** - Ensure proper DC voltage from batteries\n3. **Check overload** - Reduce connected loads\n4. **Temperature issues** - Ensure adequate ventilation\n5. **Reset inverter** - Try power cycling the unit\n\nWhat error code is displayed on your inverter?",
+  //   "inverter fault": "Inverter fault diagnosis:\n\n1. **Check error codes** - Note any displayed error messages\n2. **Verify input voltage** - Ensure proper DC voltage from batteries\n3. **Check overload** - Reduce connected loads\n4. **Temperature issues** - Ensure adequate ventilation\n5. **Reset inverter** - Try power cycling the unit\n\nWhat error code is displayed on your inverter?",
     
-    "system maintenance": "Regular maintenance schedule:\n\n**Monthly:**\n- Visual inspection of all components\n- Clean solar panels\n- Check battery terminals\n\n**Quarterly:**\n- Tighten all connections\n- Test battery specific gravity (flooded batteries)\n- Check charge controller settings\n\n**Annually:**\n- Professional system inspection\n- Replace worn cables\n- Update system monitoring\n\nWhich maintenance task would you like detailed guidance on?",
+  //   "system maintenance": "Regular maintenance schedule:\n\n**Monthly:**\n- Visual inspection of all components\n- Clean solar panels\n- Check battery terminals\n\n**Quarterly:**\n- Tighten all connections\n- Test battery specific gravity (flooded batteries)\n- Check charge controller settings\n\n**Annually:**\n- Professional system inspection\n- Replace worn cables\n- Update system monitoring\n\nWhich maintenance task would you like detailed guidance on?",
     
-    "poor battery life": "Battery life optimization:\n\n1. **Avoid deep discharge** - Keep batteries above 50% SOC\n2. **Regular equalization** - For flooded lead-acid batteries\n3. **Temperature control** - Maintain 20-25°C ambient temperature\n4. **Proper charging** - Ensure complete charge cycles\n5. **Load management** - Avoid prolonged heavy loads\n\nWhat type of batteries are you using?",
+  //   "poor battery life": "Battery life optimization:\n\n1. **Avoid deep discharge** - Keep batteries above 50% SOC\n2. **Regular equalization** - For flooded lead-acid batteries\n3. **Temperature control** - Maintain 20-25°C ambient temperature\n4. **Proper charging** - Ensure complete charge cycles\n5. **Load management** - Avoid prolonged heavy loads\n\nWhat type of batteries are you using?",
+  // };
+
+  // const generateResponse = (message: string): string => {
+  //   const lowerMessage = message.toLowerCase();
+    
+  //   // Check for keywords in predefined responses
+  //   for (const [key, response] of Object.entries(predefinedResponses)) {
+  //     if (lowerMessage.includes(key)) {
+  //       return response;
+  //     }
+  //   }
+
+  //   // General troubleshooting keywords
+  //   if (lowerMessage.includes("troubleshoot") || lowerMessage.includes("problem")) {
+  //     return "I can help you troubleshoot common solar system issues. Please describe the specific problem you're experiencing:\n\n• Low power output\n• Battery not charging\n• Inverter faults\n• Poor battery life\n• System maintenance\n\nWhat symptoms are you observing?";
+  //   }
+
+  //   if (lowerMessage.includes("maintenance")) {
+  //     return predefinedResponses["system maintenance"];
+  //   }
+
+  //   if (lowerMessage.includes("efficiency") || lowerMessage.includes("optimize")) {
+  //     return "System optimization tips:\n\n1. **Panel positioning** - Ensure optimal tilt and orientation\n2. **Shading elimination** - Remove any obstructions\n3. **Load scheduling** - Run high-power loads during peak sun\n4. **Regular cleaning** - Clean panels monthly\n5. **Monitor performance** - Track daily energy production\n\nWhich aspect would you like to optimize?";
+  //   }
+
+  //   // Default response
+  //   return "I'm here to help with solar installation troubleshooting and maintenance. Could you please provide more specific details about:\n\n• What type of issue you're experiencing\n• What symptoms you've observed\n• When the problem started\n• Any error messages displayed\n\nThis will help me provide more targeted assistance.";
+  // };
+
+const handleSendMessage = async () => {
+  if (!inputMessage.trim()) return;
+
+  const userMessage: Message = {
+    id: Date.now().toString(),
+    type: "user",
+    content: inputMessage,
+    timestamp: new Date(),
   };
 
-  const generateResponse = (message: string): string => {
-    const lowerMessage = message.toLowerCase();
-    
-    // Check for keywords in predefined responses
-    for (const [key, response] of Object.entries(predefinedResponses)) {
-      if (lowerMessage.includes(key)) {
-        return response;
-      }
+  setMessages(prev => [...prev, userMessage]);
+  setInputMessage("");
+  setIsLoading(true);
+
+  try {
+    const question = { message: inputMessage }; // customize based on your backend's expected shape
+
+    const res = await fetch("https://solar-master-ai.onrender.com/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(question),
+    });
+
+    if (!res.ok) {
+      const errorText = await res.text();
+      throw new Error(`Request failed: ${res.status} - ${errorText}`);
     }
 
-    // General troubleshooting keywords
-    if (lowerMessage.includes("troubleshoot") || lowerMessage.includes("problem")) {
-      return "I can help you troubleshoot common solar system issues. Please describe the specific problem you're experiencing:\n\n• Low power output\n• Battery not charging\n• Inverter faults\n• Poor battery life\n• System maintenance\n\nWhat symptoms are you observing?";
+    const data = await res.json();
+
+    if (data.token) {
+      localStorage.setItem("jwt", data.token);
+      console.log("JWT token stored:", data.token);
     }
 
-    if (lowerMessage.includes("maintenance")) {
-      return predefinedResponses["system maintenance"];
-    }
-
-    if (lowerMessage.includes("efficiency") || lowerMessage.includes("optimize")) {
-      return "System optimization tips:\n\n1. **Panel positioning** - Ensure optimal tilt and orientation\n2. **Shading elimination** - Remove any obstructions\n3. **Load scheduling** - Run high-power loads during peak sun\n4. **Regular cleaning** - Clean panels monthly\n5. **Monitor performance** - Track daily energy production\n\nWhich aspect would you like to optimize?";
-    }
-
-    // Default response
-    return "I'm here to help with solar installation troubleshooting and maintenance. Could you please provide more specific details about:\n\n• What type of issue you're experiencing\n• What symptoms you've observed\n• When the problem started\n• Any error messages displayed\n\nThis will help me provide more targeted assistance.";
-  };
-
-  const handleSendMessage = async () => {
-    if (!inputMessage.trim()) return;
-
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      type: "user",
-      content: inputMessage,
+    const botResponse: Message = {
+      id: (Date.now() + 1).toString(),
+      type: "bot",
+      content: data.message || "This is default message", // or any relevant response from API
       timestamp: new Date(),
     };
 
-    setMessages(prev => [...prev, userMessage]);
-    setInputMessage("");
-    setIsLoading(true);
+    setMessages(prev => [...prev, botResponse]);
+  } catch (error) {
+    console.error("Error sending user data:", error);
 
-    // Simulate AI processing delay
-    setTimeout(() => {
-      const botResponse: Message = {
-        id: (Date.now() + 1).toString(),
-        type: "bot",
-        content: generateResponse(inputMessage),
-        timestamp: new Date(),
-      };
+    const errorMessage: Message = {
+      id: (Date.now() + 2).toString(),
+      type: "bot",
+      content: "Sorry, something went wrong while processing your message.",
+      timestamp: new Date(),
+    };
 
-      setMessages(prev => [...prev, botResponse]);
-      setIsLoading(false);
-    }, 1000);
-  };
+    setMessages(prev => [...prev, errorMessage]);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
