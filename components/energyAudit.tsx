@@ -261,14 +261,14 @@ export const EnergyAudit = () => {
           <CardHeader>
             <div className="flex justify-between items-center">
               <CardTitle>Appliances List</CardTitle>
-              <div className="flex gap-2">
-                <Button onClick={exportToPDF} variant="outline" size="sm">
-                  <FileText className="h-4 w-4 mr-2" />
-                  Export PDF
+              <div className="flex gap-2 flex-wrap">
+                <Button onClick={exportToPDF} variant="outline" size="sm" className="flex items-center gap-2">
+                  <FileText className="h-4 w-4" />
+                  <span className="hidden sm:inline">Export PDF</span>
                 </Button>
-                <Button onClick={exportToExcel} variant="outline" size="sm">
-                  <Download className="h-4 w-4 mr-2" />
-                  Export Excel
+                <Button onClick={exportToExcel} variant="outline" size="sm" className="flex items-center gap-2">
+                  <Download className="h-4 w-4" />
+                  <span className="hidden sm:inline">Export Excel</span>
                 </Button>
               </div>
             </div>
