@@ -38,38 +38,58 @@ const Index = () => {
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           {/* <TabsList className="grid w-full grid-cols-2 lg:grid-cols-5 gap-2"> */}
-          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
-            <TabsTrigger value="energy-audit" className="flex items-center justify-center gap-2 p-2 sm:p-3 text-xs sm:text-sm">
+          <TabsList
+            className="flex w-full overflow-x-auto sm:grid sm:grid-cols-3 md:grid-cols-6 gap-2 px-1"  // ✅ Edited Line
+          >
+            <TabsTrigger
+              value="energy-audit"
+              className="flex items-center justify-center gap-2 p-2 sm:p-3 text-xs sm:text-sm flex-shrink-0"  // ✅ Edited Line
+            >
               <Calculator className="h-4 w-4" />
-              <span className="hidden sm:inline">Energy Audit</span> 
+              <span className="hidden sm:inline">Energy Audit</span>
             </TabsTrigger>
 
-            <TabsTrigger value="battery-design" className="flex items-center justify-center gap-2 p-2 sm:p-3 text-xs sm:text-sm">
+            <TabsTrigger
+              value="battery-design"
+              className="flex items-center justify-center gap-2 p-2 sm:p-3 text-xs sm:text-sm flex-shrink-0"  // ✅ Edited Line
+            >
               <Battery className="h-4 w-4" />
               <span className="hidden sm:inline">Battery Design</span>
             </TabsTrigger>
 
-            <TabsTrigger value="pv-design" className="flex items-center justify-center gap-2 p-2 sm:p-3 text-xs sm:text-sm">
+            <TabsTrigger
+              value="pv-design"
+              className="flex items-center justify-center gap-2 p-2 sm:p-3 text-xs sm:text-sm flex-shrink-0"  // ✅ Edited Line
+            >
               <Sun className="h-4 w-4" />
-              <span className="hidden sm:inline">PV Design</span> 
+              <span className="hidden sm:inline">PV Design</span>
             </TabsTrigger>
 
-            <TabsTrigger value="inverter" className="flex items-center justify-center gap-2 p-2 sm:p-3 text-xs sm:text-sm">
+            <TabsTrigger
+              value="inverter"
+              className="flex items-center justify-center gap-2 p-2 sm:p-3 text-xs sm:text-sm flex-shrink-0"  // ✅ Edited Line
+            >
               <Zap className="h-4 w-4" />
-              <span className="hidden sm:inline">Inverter</span> 
+              <span className="hidden sm:inline">Inverter</span>
             </TabsTrigger>
 
-            <TabsTrigger value="recommendation" className="flex items-center justify-center gap-2 p-2 sm:p-3 text-xs sm:text-sm">
+            <TabsTrigger
+              value="recommendation"
+              className="flex items-center justify-center gap-2 p-2 sm:p-3 text-xs sm:text-sm flex-shrink-0"  // ✅ Edited Line
+            >
               <Sparkles className="h-4 w-4" />
-              <span className="hidden sm:inline">Recommendation</span> 
+              <span className="hidden sm:inline">Recommendation</span>
             </TabsTrigger>
 
-            <TabsTrigger value="chat" className="flex items-center justify-center gap-2 p-2 sm:p-3 text-xs sm:text-sm">
+            <TabsTrigger
+              value="chat"
+              className="flex items-center justify-center gap-2 p-2 sm:p-3 text-xs sm:text-sm flex-shrink-0"  // ✅ Edited Line
+            >
               <MessageCircle className="h-4 w-4" />
-              <span className="hidden sm:inline">AI Chat</span> 
+              <span className="hidden sm:inline">AI Chat</span>
             </TabsTrigger>
-
           </TabsList>
+
 
           <TabsContent value="energy-audit">
             <Card>
