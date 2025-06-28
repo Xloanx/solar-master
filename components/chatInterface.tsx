@@ -81,12 +81,12 @@ const handleSendMessage = async () => {
   setIsLoading(true);
 
   try {
-    const question = { message: inputMessage }; // customize based on your backend's expected shape
+    const message = { question: inputMessage }; // customize based on your backend's expected shape
 
     const res = await fetch("https://solar-master-ai.onrender.com/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(question),
+      body: JSON.stringify(message),
     });
 
     if (!res.ok) {
@@ -95,6 +95,7 @@ const handleSendMessage = async () => {
     }
 
     const data = await res.json();
+    console.log(data.response);
 
     if (data.token) {
       localStorage.setItem("jwt", data.token);
@@ -104,7 +105,7 @@ const handleSendMessage = async () => {
     const botResponse: Message = {
       id: (Date.now() + 1).toString(),
       type: "bot",
-      content: data.message || "This is default message", // or any relevant response from API
+      content: data.response.tasks_output[0] || "This is default message", // or any relevant response from API
       timestamp: new Date(),
     };
 
