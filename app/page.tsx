@@ -7,11 +7,10 @@ import { EnergyAudit } from "@/components/energyAudit";
 import { BatteryDesign } from "@/components/batteryDesign";
 import { PVDesign } from "@/components/pvDesign";
 import { InverterCalculator } from "@/components/inverterCalculator";
-import { ChargeControllerRecommendation } from "@/components/chargeControllerRecommendation";
-import { OptimizationAdvice } from "@/components/optimizationAdvice";
+import Recommendations from "@/components/recommendations";
 import { ChatInterface } from "@/components/chatInterface";
 import { useAppStore } from "@/store/useAppStore";
-import { Calculator, Battery, Sun, Zap, MessageCircle } from "lucide-react"; // Removed History
+import { Calculator, Battery, Sun, Zap, MessageCircle, Sparkles } from "lucide-react"; // Removed History
 
 const Index = () => {
   const { activeTab, setActiveTab } = useAppStore();
@@ -39,7 +38,7 @@ const Index = () => {
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           {/* <TabsList className="grid w-full grid-cols-2 lg:grid-cols-5 gap-2"> */}
-          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
             <TabsTrigger value="energy-audit" className="flex items-center justify-center gap-2 p-2 sm:p-3 text-xs sm:text-sm">
               <Calculator className="h-4 w-4" />
               <span className="hidden sm:inline">Energy Audit</span> 
@@ -60,10 +59,16 @@ const Index = () => {
               <span className="hidden sm:inline">Inverter</span> 
             </TabsTrigger>
 
+            <TabsTrigger value="recommendation" className="flex items-center justify-center gap-2 p-2 sm:p-3 text-xs sm:text-sm">
+              <Sparkles className="h-4 w-4" />
+              <span className="hidden sm:inline">Recommendation</span> 
+            </TabsTrigger>
+
             <TabsTrigger value="chat" className="flex items-center justify-center gap-2 p-2 sm:p-3 text-xs sm:text-sm">
               <MessageCircle className="h-4 w-4" />
               <span className="hidden sm:inline">AI Chat</span> 
             </TabsTrigger>
+
           </TabsList>
 
           <TabsContent value="energy-audit">
@@ -109,7 +114,6 @@ const Index = () => {
           </TabsContent>
 
           <TabsContent value="inverter">
-            <div className="space-y-6">
               <Card>
                 <CardHeader>
                   <CardTitle>Inverter Calculator</CardTitle>
@@ -121,30 +125,21 @@ const Index = () => {
                   <InverterCalculator />
                 </CardContent>
               </Card>
+          </TabsContent>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Charge Controller Recommendation</CardTitle>
-                  <CardDescription>
-                    Get recommendations for the appropriate solar charge controller
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ChargeControllerRecommendation />
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Optimization Advice</CardTitle>
-                  <CardDescription>
-                    Get suggestions to optimize your installation and reduce costs
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <OptimizationAdvice />
-                </CardContent>
-              </Card>
+          <TabsContent value="recommendation">
+            <div className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Recommendations</CardTitle>
+                <CardDescription>
+                  Get personalized suggestions on system components and configuration to optimize your solar installation for efficiency, reliability, and cost-effectiveness.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Recommendations />
+              </CardContent>
+            </Card>
             </div>
           </TabsContent>
 
