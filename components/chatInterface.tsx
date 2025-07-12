@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Send, Bot, User } from "lucide-react";
-// import { toast } from "sonner";
+import { useAppStore } from "@/store/useAppStore";
 
 interface Message {
   id: string;
@@ -15,6 +15,7 @@ interface Message {
 }
 
 export const ChatInterface = () => {
+  const { energyData, pvInputs, batteryInputs } = useAppStore();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
@@ -81,9 +82,10 @@ const handleSendMessage = async () => {
   setIsLoading(true);
 
   try {
-    const message = { question: inputMessage }; // customize based on your backend's expected shape
+    const message = { question: inputMessage }; // customize based on backend's expected shape
 
-    const res = await fetch("https://solar-master-ai.onrender.com/chat", {
+    // const res = await fetch("https://solar-master-ai.onrender.com/chat", {
+    const res = await fetch("http://127.0.0.1:8000/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(message),
@@ -95,7 +97,6 @@ const handleSendMessage = async () => {
     }
 
     const data = await res.json();
-    // console.log(data.response);
 
     if (data.token) {
       localStorage.setItem("jwt", data.token);
@@ -105,7 +106,7 @@ const handleSendMessage = async () => {
     const botResponse: Message = {
       id: (Date.now() + 1).toString(),
       type: "bot",
-      content: data.response || "This is default message", // or any relevant response from API
+      content: data.response.tasks_output[0].raw|| "This is default message", // or any relevant response from API
       timestamp: new Date(),
     };
 
