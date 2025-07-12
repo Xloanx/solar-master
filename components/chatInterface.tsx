@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Send, Bot, User } from "lucide-react";
-import { useAppStore } from "@/store/useAppStore";
+//import { useAppStore } from "@/store/useAppStore";
 
 interface Message {
   id: string;
@@ -15,7 +15,7 @@ interface Message {
 }
 
 export const ChatInterface = () => {
-  const { energyData, pvInputs, batteryInputs } = useAppStore();
+  //const { energyData, pvInputs, batteryInputs } = useAppStore();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
