@@ -2,12 +2,22 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 export interface Appliance {
+  // id: string;
+  // name: string;
+  // quantity: number;
+  // powerRating: number;
+  // isInductive: boolean;
+  // runtime: number;
+  // totalPower: number;
+  // surgeFactor: number;
+  // dailyConsumption: number;
+
   id: string;
   name: string;
-  quantity: number;
-  powerRating: number;
+  quantity: number | "";
+  powerRating: number | "";
   isInductive: boolean;
-  runtime: number;
+  runtime: number | "";
   totalPower: number;
   surgeFactor: number;
   dailyConsumption: number;

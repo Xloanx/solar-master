@@ -34,10 +34,10 @@ interface AutoTableOptions {
 interface ApplianceType {
   id: string;
   name: string;
-  quantity: number | string;
-  powerRating: number | string;
+  quantity: number | "";
+  powerRating: number | "";
   isInductive: boolean;
-  runtime: number | string;
+  runtime: number | "";
   totalPower: number;
   surgeFactor: number;
   dailyConsumption: number;
@@ -46,13 +46,33 @@ interface ApplianceType {
 export const EnergyAudit = () => {
   // const { toast } = useToast();
   const { energyData, setEnergyData } = useAppStore();
-  const [newAppliance, setNewAppliance] = useState({
-      name: "",
-      quantity: 1,
-      powerRating: 0,
-      isInductive: false,
-      runtime: 8,
-  });
+  // const [newAppliance, setNewAppliance] = useState({
+  //     name: "",
+  //     quantity: 1,
+  //     powerRating: 0,
+  //     isInductive: false,
+  //     runtime: 8,
+  // });
+
+  const [newAppliance, setNewAppliance] = useState<{
+  name: string;
+  quantity: number | "";
+  powerRating: number | "";
+  isInductive: boolean;
+  runtime: number | "";
+}>({
+  name: "",
+  quantity: 1,
+  powerRating: 0,
+  isInductive: false,
+  runtime: 8,
+});
+
+  const parseNumber = (value: string): number | "" => {
+  const parsed = parseFloat(value);
+  return isNaN(parsed) ? "" : parsed;
+};
+
 
   const calculateTotals = (appliances: ApplianceType[]) => {
     const totalRawEnergy = appliances.reduce((sum, app) => sum + app.dailyConsumption, 0);
@@ -61,7 +81,10 @@ export const EnergyAudit = () => {
   };
 
   const addAppliance = () => {
-    if (!newAppliance.name || !newAppliance.quantity || !newAppliance.powerRating || !newAppliance.runtime) {
+    if (!newAppliance.name || 
+        newAppliance.quantity === "" || 
+        newAppliance.powerRating ==="" || 
+        newAppliance.runtime ==="") {
       toast("Invalid Input",{
         description: "Please provide a valid appliance name and power rating"
       });
@@ -212,7 +235,8 @@ export const EnergyAudit = () => {
           onChange={(e) =>
             setNewAppliance({
               ...newAppliance,
-              quantity: e.target.value === "" ? "" : parseInt(e.target.value),
+              // quantity: e.target.value === "" ? "" : parseInt(e.target.value),
+              quantity: e.target.value === "" ? "" : parseNumber(e.target.value),
             })
           }
         /> 
@@ -228,7 +252,8 @@ export const EnergyAudit = () => {
           onChange={(e) =>
             setNewAppliance({
               ...newAppliance,
-              powerRating: e.target.value === "" ? "" : parseInt(e.target.value),
+              // powerRating: e.target.value === "" ? "" : parseInt(e.target.value),
+              powerRating: e.target.value === "" ? "" : parseNumber(e.target.value),
             })
           }
         />
@@ -245,7 +270,8 @@ export const EnergyAudit = () => {
           onChange={(e) =>
             setNewAppliance({
               ...newAppliance,
-              runtime: e.target.value === "" ? "" : parseFloat(e.target.value),
+              // runtime: e.target.value === "" ? "" : parseFloat(e.target.value),
+              runtime: e.target.value === "" ? "" : parseNumber(e.target.value),
             })
           }
         />
