@@ -16,10 +16,10 @@ interface ProjectType {
     appliances: Array<{
       id: string;
       name: string;
-      quantity: number;
-      powerRating: number;
+      quantity: number | "";
+      powerRating: number | "";
       isInductive: boolean;
-      runtime: number;
+      runtime: number | "";
       totalPower: number;
       surgeFactor: number;
       dailyConsumption: number;
