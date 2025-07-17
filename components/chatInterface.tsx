@@ -85,7 +85,8 @@ const handleSendMessage = async () => {
     const message = { question: inputMessage }; // customize based on backend's expected shape
 
     // const res = await fetch("https://solar-master-ai.onrender.com/chat", {
-    const res = await fetch("http://127.0.0.1:8000/chat", {
+    // const res = await fetch("http://127.0.0.1:8000/chat", {
+      const res = await fetch("https://xloanx.app.n8n.cloud/webhook-test/a39a30d8-1a15-4fbe-9cc2-89a9f67113da", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(message),
