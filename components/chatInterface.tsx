@@ -105,7 +105,11 @@ const handleSendMessage = async () => {
     const botResponse: Message = {
       id: (Date.now() + 1).toString(),
       type: "bot",
-      content: data.response || data.response.tasks_output[0].raw|| "This is default message", // or any relevant response from API
+      // content: data.response || data.response.tasks_output[0].raw|| "This is default message", // or any relevant response from API
+      content:
+        typeof data.response === "string"
+        ? data.response
+        : data?.response?.tasks_output?.[0]?.raw ?? "This is default message",
       timestamp: new Date(),
     };
 
