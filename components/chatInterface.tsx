@@ -96,7 +96,7 @@ const handleSendMessage = async () => {
     }
 
     const data = await res.json();
-
+    console.log("Response from backend:", data);
     if (data.token) {
       localStorage.setItem("jwt", data.token);
       console.log("JWT token stored:", data.token);
